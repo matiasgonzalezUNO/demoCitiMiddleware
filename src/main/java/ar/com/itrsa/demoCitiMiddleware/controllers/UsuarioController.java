@@ -37,7 +37,7 @@ public class UsuarioController {
 	}
 	
 	@PostMapping( path = "/obtenerSaldo")
-	public @ResponseBody String ObtenerSaldo(@RequestBody RequestModel request) {
+	public @ResponseBody ResponseModel ObtenerSaldo(@RequestBody RequestModel request) {
 		return usuarioService.obtenerSaldo(request);
 	}
 	

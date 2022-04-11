@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import ar.com.itrsa.demoCitiMiddleware.models.RequestModel;
+import ar.com.itrsa.demoCitiMiddleware.models.ResponseModel;
+import ar.com.itrsa.demoCitiMiddleware.models.ResponseModelBack;
 import ar.com.itrsa.demoCitiMiddleware.models.UsuarioModel;
 
 //import ar.com.itrsa.demoCitiMiddleware.models.UsuarioModel;
@@ -35,14 +37,30 @@ public class UsuarioService {
 		return result;
 	}
 	
-	public String obtenerSaldo(RequestModel request){
+	public ResponseModel obtenerSaldo(RequestModel request){
 	
 		final String uri = "http://localhost:8089/usuarioBackEnd/obtenerSaldoBack";
 		
 		RestTemplate restTemplate = new RestTemplate();
-	    String result = restTemplate.postForObject(uri, request, String.class);
+		ResponseModelBack result = restTemplate.postForObject(uri, request, ResponseModelBack.class);
 		
-		return result;
+		ResponseModel respuesta = new ResponseModel();
+		respuesta.setSaldoActual("0,000");
+        respuesta.setCode(400);
+        respuesta.setStatus(false);
+        respuesta.setDescripcion("Error 400: se ha producido un error inesperado");     
+        
+        
+		if(result.getStatus()) {
+        	System.out.println("usuario: "+result.getUsuarioBack());
+        	respuesta.setSaldoActual(result.getUsuarioBack().getMonto().toString());
+            respuesta.setCode(200);
+            respuesta.setStatus(true);
+            respuesta.setDescripcion("el saldo del cliente es: ");
+            return respuesta;
+        } else {
+        	return respuesta;
+        }
 		
 	}
 //	public UsuarioModel guardarUsuario(UsuarioModel user) {

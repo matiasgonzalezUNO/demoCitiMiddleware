@@ -8,7 +8,7 @@ public class UsuarioModel {
 	private Integer prioridad;	
 	private TipoDocumentoModel tipoDocumento;	
 	private Integer numeroDocumento;	
-	private Integer numeroCuentaBancaria;	
+	private Long numeroCuentaBancaria;	
 	private Integer monto;
 	
 	public Integer getId() {
@@ -47,10 +47,10 @@ public class UsuarioModel {
 	public void setNumeroDocumento(Integer numeroDocumento) {
 		this.numeroDocumento = numeroDocumento;
 	}
-	public Integer getNumeroCuentaBancaria() {
+	public Long getNumeroCuentaBancaria() {
 		return numeroCuentaBancaria;
 	}
-	public void setNumeroCuentaBancaria(Integer numeroCuentaBancaria) {
+	public void setNumeroCuentaBancaria(Long numeroCuentaBancaria) {
 		this.numeroCuentaBancaria = numeroCuentaBancaria;
 	}
 	public Integer getMonto() {
