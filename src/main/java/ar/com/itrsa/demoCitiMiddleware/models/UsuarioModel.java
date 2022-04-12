@@ -59,5 +59,11 @@ public class UsuarioModel {
 	public void setMonto(Integer monto) {
 		this.monto = monto;
 	}
+	@Override
+	public String toString() {
+		return "UsuarioModel [id=" + id + ", nombre=" + nombre + ", email=" + email + ", prioridad=" + prioridad
+				+ ", tipoDocumento=" + tipoDocumento + ", numeroDocumento=" + numeroDocumento
+				+ ", numeroCuentaBancaria=" + numeroCuentaBancaria + ", monto=" + monto + "]";
+	}
 	
 }

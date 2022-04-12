@@ -3,6 +3,7 @@ package ar.com.itrsa.demoCitiMiddleware.services;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,6 +16,12 @@ import ar.com.itrsa.demoCitiMiddleware.models.UsuarioModel;
 
 @Service
 public class UsuarioService {
+	
+	@Value("${id_tipo_doc_front}")
+	public Long idTipoDocFront;
+	
+	@Value("${id_tipo_doc_back}")
+	public Long idTipoDocBack;
 	
 	public String obtenerUsuariosDummy(){
 	
@@ -41,15 +48,25 @@ public class UsuarioService {
 	
 		final String uri = "http://localhost:8089/usuarioBackEnd/obtenerSaldoBack";
 		
-		RestTemplate restTemplate = new RestTemplate();
-		ResponseModelBack result = restTemplate.postForObject(uri, request, ResponseModelBack.class);
-		
 		ResponseModel respuesta = new ResponseModel();
 		respuesta.setSaldoActual("0,000");
         respuesta.setCode(400);
         respuesta.setStatus(false);
-        respuesta.setDescripcion("Error 400: se ha producido un error inesperado");     
+        respuesta.setDescripcion("Error 400: se ha producido un error inesperado");
         
+        if((String.valueOf(request.getTipoDocumento()).equals("") || request.getTipoDocumento()==null) ||
+        		(String.valueOf(request.getNumeroDocumento()).equals("") || request.getNumeroDocumento()==null))  {
+        	return respuesta;
+		}
+        
+        if (request.getTipoDocumento() == idTipoDocFront) {
+        	request.setTipoDocumento(idTipoDocBack);
+        } else {
+        	return respuesta;
+        }
+        
+        RestTemplate restTemplate = new RestTemplate();
+		ResponseModelBack result = restTemplate.postForObject(uri, request, ResponseModelBack.class);
         
 		if(result.getStatus()) {
         	System.out.println("usuario: "+result.getUsuarioBack());
