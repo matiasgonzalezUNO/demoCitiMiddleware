@@ -5,13 +5,13 @@ import java.util.Objects;
 
 public class RequestModel implements Serializable {
 	
-	private Long tipoDocumento;
+	private Integer tipoDocumento;
     private Integer numeroDocumento;
     
-	public Long getTipoDocumento() {
+	public Integer getTipoDocumento() {
 		return tipoDocumento;
 	}
-	public void setTipoDocumento(Long tipoDocumento) {
+	public void setTipoDocumento(Integer tipoDocumento) {
 		this.tipoDocumento = tipoDocumento;
 	}
 	public Integer getNumeroDocumento() {

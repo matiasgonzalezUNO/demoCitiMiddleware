@@ -1,6 +1,6 @@
 package ar.com.itrsa.demoCitiMiddleware.models;
 
-
+import java.util.Objects;
 
 public class ResponseModelBack {
 
@@ -40,4 +40,24 @@ public class ResponseModelBack {
     public void setUsuarioBack(UsuarioModel saldoActual) {
         this.Usuario = saldoActual;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(Usuario, code, descripcion, status);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ResponseModelBack other = (ResponseModelBack) obj;
+		return Objects.equals(Usuario, other.Usuario) && code == other.code
+				&& Objects.equals(descripcion, other.descripcion) && status == other.status;
+	}
+    
+    
 }

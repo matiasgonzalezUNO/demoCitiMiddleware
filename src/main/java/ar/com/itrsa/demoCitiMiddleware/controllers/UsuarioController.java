@@ -19,6 +19,7 @@ import ar.com.itrsa.demoCitiMiddleware.models.ResponseModel;
 import ar.com.itrsa.demoCitiMiddleware.models.UsuarioModel;
 import ar.com.itrsa.demoCitiMiddleware.services.UsuarioService;
 
+//Punto de entrada de la api
 
 @RestController
 @RequestMapping("/usuario")
