@@ -1,7 +1,5 @@
 package ar.com.itrsa.demoCitiMiddleware.models;
 
-
-
 public class ResponseModelBack {
 
 	private int code;
