@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 
 import ar.com.itrsa.demoCitiMiddleware.exception.BadRequestException;
 import ar.com.itrsa.demoCitiMiddleware.exception.NotFoundException;
+import ar.com.itrsa.demoCitiMiddleware.exception.RestNotFoundException;
 import ar.com.itrsa.demoCitiMiddleware.models.RequestModel;
 import ar.com.itrsa.demoCitiMiddleware.models.ResponseModel;
 import ar.com.itrsa.demoCitiMiddleware.models.UsuarioModel;
@@ -52,7 +53,13 @@ public class UsuarioController {
 		logger.info("Ingresan a transformacion del middleware");
 		try {
 			return usuarioService.obtenerSaldo(request);
-		}catch(NotFoundException nfe) {
+		}
+		//Este catch pertenete al Rest Template
+		catch(RestNotFoundException rnfe) {
+			logger.error("Ocurrio un error con la respuesta del Backend", rnfe);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, rnfe.getMessage());
+		}
+		catch(NotFoundException nfe) {
 			logger.error("El elemento que esta buscando no existe", nfe);
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, nfe.getMessage());
 		}

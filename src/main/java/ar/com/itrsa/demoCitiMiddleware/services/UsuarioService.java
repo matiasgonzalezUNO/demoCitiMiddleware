@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,6 +24,10 @@ import ar.com.itrsa.demoCitiMiddleware.models.UsuarioModel;
 public class UsuarioService {
 	
 	private static final Logger logger = LogManager.getLogger(UsuarioService.class);
+	
+	//Este autowired al rest template es para poder agregarle las configuraciones del RestTemplate para el errorHandling
+	@Autowired
+	private RestTemplate restTemplate;
 	
 	//Lista de transformaciones de tipo de documentos
 	@Value("${id-DNI-front}")
@@ -73,12 +78,6 @@ public class UsuarioService {
 	public ResponseModel obtenerSaldo (RequestModel request) throws Exception{
 	
 		ResponseModel respuesta = new ResponseModel();
-		/*
-		respuesta.setSaldoActual("0,000");
-        respuesta.setCode(400);
-        respuesta.setStatus(false);
-        respuesta.setDescripcion("Error 400: se ha producido un error inesperado");
-        */
         Integer tipoDocRequest;
 		Integer numeroDocRequest;
 		
@@ -108,34 +107,17 @@ public class UsuarioService {
         	System.out.println("paso traduccion:=> numeroDocRequest:" + numeroDocRequest + "y el tipoDocReq:" + request.getTipoDocumento());
         }else {
         	//respuesta.setDescripcion("Error 400: se ha producido un error : No paso la traduccion ");
-        	throw new NotFoundException("La tipo de traduccion que esta intentando realizar no existe");
+        	throw new NotFoundException("El tipo de traduccion que esta intentando realizar no existe");
         }
-        logger.info("1");
-		final String uri = "http://localhost:8089/usuarioBackEnd/obtenerSaldoBack";
-		logger.info("2");
-		//Esto se encarga de verificar si 
-		RestTemplate restTemplate = new RestTemplate();
-		logger.info("3");
-		//Lo inicializo para que se pueda utilizar dentro del try catch
-		String result = null;
-		
-		logger.info("4");
-		
-		result = restTemplate.postForObject(uri, request, String.class);
 
-		logger.info("5");
-		
-		logger.info("VERIFICANDO QUE RESPUESTA OBTENGO AL ENVIAR UN USUARIO INEXISTENTE EN RESULT");
-		logger.info(result);
-        
-//		Validación
-        if( false)  {
-        	respuesta.setDescripcion("Error 400: no existe el usuario");
-        	return respuesta;
-		}
+		final String uri = "http://localhost:8089/usuarioBackEnd/obtenerSaldoBack";
+
+		//Lo inicializo para que se pueda utilizar dentro del try catch
+		ResponseModelBack result = restTemplate.postForObject(uri, request, ResponseModelBack.class);
+
         
 //      Traducción de datos para el response del front
-		//usuario = result.getUsuarioBack();      
+		usuario = result.getUsuarioBack();      
         
         double d = usuario.getMonto();
         DecimalFormat format = new DecimalFormat("0.000");
@@ -145,17 +127,13 @@ public class UsuarioService {
         aux = aux.replace(".",",");
         
 //      Armamos el response para el front        
-		if(false) {
-        	System.out.println("usuario: "+usuario);
-        	respuesta.setSaldoActual(aux.toString());
-            respuesta.setCode(200);
-            respuesta.setStatus(true);
-            respuesta.setDescripcion("el saldo del cliente " + usuario.getNombre() + " es: ");
-            return respuesta;
-        } else {
-        	return respuesta;
-        }
-		
+    	System.out.println("usuario: "+usuario);
+    	respuesta.setSaldoActual(aux.toString());
+        respuesta.setCode(200);
+        respuesta.setStatus(true);
+        respuesta.setDescripcion("el saldo del cliente " + usuario.getNombre() + " es: ");
+        return respuesta;
+        
 	}
 //	public UsuarioModel guardarUsuario(UsuarioModel user) {
 //		return usuarioRepository.save(user);
