@@ -1,7 +1,6 @@
 package ar.com.itrsa.demoCitiMiddleware.exception;
 
 import java.io.IOException;
-import java.net.http.HttpResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -31,7 +30,7 @@ public class RestTemplateResponseErrorHandler implements ResponseErrorHandler {
 			throw new RestNotFoundException("El elemento que esta buscando no existe");
         }
 		//NOT_FOUND
-		else if(response.getRawStatusCode() == 401) {
+		else if(response.getRawStatusCode() == 404) {
         	throw new RestNotFoundException("El elemento que esta buscando no existe");
         }
 		//INTERNAL_SERVER_ERROR

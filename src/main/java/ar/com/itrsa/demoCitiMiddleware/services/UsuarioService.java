@@ -1,15 +1,13 @@
 package ar.com.itrsa.demoCitiMiddleware.services;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Optional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import ar.com.itrsa.demoCitiMiddleware.exception.BadRequestException;
 import ar.com.itrsa.demoCitiMiddleware.exception.NotFoundException;
@@ -18,12 +16,9 @@ import ar.com.itrsa.demoCitiMiddleware.models.ResponseModel;
 import ar.com.itrsa.demoCitiMiddleware.models.ResponseModelBack;
 import ar.com.itrsa.demoCitiMiddleware.models.UsuarioModel;
 
-//import ar.com.itrsa.demoCitiMiddleware.models.UsuarioModel;
-
 @Service
 public class UsuarioService {
 	
-	private static final Logger logger = LogManager.getLogger(UsuarioService.class);
 	
 	//Este autowired al rest template es para poder agregarle las configuraciones del RestTemplate para el errorHandling
 	@Autowired
@@ -113,49 +108,31 @@ public class UsuarioService {
 		final String uri = "http://localhost:8089/usuarioBackEnd/obtenerSaldoBack";
 
 		//Lo inicializo para que se pueda utilizar dentro del try catch
-		ResponseModelBack result = restTemplate.postForObject(uri, request, ResponseModelBack.class);
+		try {
+			ResponseModelBack result = restTemplate.postForObject(uri, request, ResponseModelBack.class);
+//	      Traducción de datos para el response del front
+			usuario = result.getUsuarioBack();      
+	        
+	        double d = usuario.getMonto();
+	        DecimalFormat format = new DecimalFormat("0.000");
+	        //Obtenemos el valor formateado
+	        String aux = format.format(d);
+	        //Reemplazamos las comas
+	        aux = aux.replace(".",",");
+	        
+//	      Armamos el response para el front        
+	    	System.out.println("usuario: "+usuario);
+	    	respuesta.setSaldoActual(aux.toString());
+	        respuesta.setCode(200);
+	        respuesta.setStatus(true);
+	        respuesta.setDescripcion("el saldo del cliente " + usuario.getNombre() + " es: ");
+	        return respuesta;
+		}catch(ResponseStatusException nfe) {			
+			throw new NotFoundException(nfe.getMessage());
+		}
+        
 
         
-//      Traducción de datos para el response del front
-		usuario = result.getUsuarioBack();      
-        
-        double d = usuario.getMonto();
-        DecimalFormat format = new DecimalFormat("0.000");
-        //Obtenemos el valor formateado
-        String aux = format.format(d);
-        //Reemplazamos las comas
-        aux = aux.replace(".",",");
-        
-//      Armamos el response para el front        
-    	System.out.println("usuario: "+usuario);
-    	respuesta.setSaldoActual(aux.toString());
-        respuesta.setCode(200);
-        respuesta.setStatus(true);
-        respuesta.setDescripcion("el saldo del cliente " + usuario.getNombre() + " es: ");
-        return respuesta;
-        
 	}
-//	public UsuarioModel guardarUsuario(UsuarioModel user) {
-//		return usuarioRepository.save(user);
-//	}
-//	
-//	public Optional<UsuarioModel> obtenerUsuarioPorId(Long id) {
-//		return usuarioRepository.findById(id);
-//	}
-//	
-//	public ArrayList<UsuarioModel> obtenerUsuarioPorPrioridad(Integer prioridad) {
-//		return usuarioRepository.findByPrioridad(prioridad);
-//	}
-//	
-//	public Boolean eliminarUsuario(Long id) {
-//		try {
-//			usuarioRepository.deleteById(id);
-//			return true;
-//		}catch(Exception err){
-//			System.out.println("catch Exception err: "+ err);
-//			return false;
-//			
-//		}
-//		
-//	}
+
 }

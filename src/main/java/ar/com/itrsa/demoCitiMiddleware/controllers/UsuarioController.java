@@ -1,17 +1,11 @@
 package ar.com.itrsa.demoCitiMiddleware.controllers;
 
-import java.util.ArrayList;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,7 +18,6 @@ import ar.com.itrsa.demoCitiMiddleware.exception.NotFoundException;
 import ar.com.itrsa.demoCitiMiddleware.exception.RestNotFoundException;
 import ar.com.itrsa.demoCitiMiddleware.models.RequestModel;
 import ar.com.itrsa.demoCitiMiddleware.models.ResponseModel;
-import ar.com.itrsa.demoCitiMiddleware.models.UsuarioModel;
 import ar.com.itrsa.demoCitiMiddleware.services.UsuarioService;
 
 //Punto de entrada de la api
@@ -73,30 +66,5 @@ public class UsuarioController {
 		}
 		
 	}
-	
-//	@GetMapping( path = "/{id}")
-//	public Optional<UsuarioModel> obtenerUsuarioPorId(@PathVariable("id") Long id) {
-//		return usuarioService.obtenerUsuarioPorId(id);
-//	}
-//	
-//	@GetMapping( path = "/query")
-//	public ArrayList<UsuarioModel> obtenerUsuarioPorPrioridad(@RequestParam("prioridad") Integer prioridad) {
-//		return usuarioService.obtenerUsuarioPorPrioridad(prioridad);
-//	}
-//	
-//	@PostMapping
-//	public UsuarioModel guardarUsuario (@RequestBody UsuarioModel usuario) {
-//		return this.usuarioService.guardarUsuario(usuario);
-//	}
-//	
-//	@DeleteMapping( path = "/{id}")
-//	public String eliminarPorId(@PathVariable("id") Long id) {
-//		boolean ok = this.usuarioService.eliminarUsuario(id);
-//		if(ok) {
-//			return "Se elimino el usuario con id " + id ;
-//		} else {
-//			return "No se pudo eliminar el usuario con id " + id ;
-//		}
-//	}
 
 }
