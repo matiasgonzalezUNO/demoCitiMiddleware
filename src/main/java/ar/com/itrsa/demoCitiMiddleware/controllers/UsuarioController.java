@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 import ar.com.itrsa.demoCitiMiddleware.exception.BadRequestException;
 import ar.com.itrsa.demoCitiMiddleware.exception.NotFoundException;
 import ar.com.itrsa.demoCitiMiddleware.exception.RestNotFoundException;
+import ar.com.itrsa.demoCitiMiddleware.models.MovimientosList;
 import ar.com.itrsa.demoCitiMiddleware.models.RequestModel;
+import ar.com.itrsa.demoCitiMiddleware.models.ResponceModelOfXml;
 import ar.com.itrsa.demoCitiMiddleware.models.ResponseModel;
 import ar.com.itrsa.demoCitiMiddleware.services.MovimientosUserService;
 import ar.com.itrsa.demoCitiMiddleware.services.UsuarioService;
@@ -74,10 +77,22 @@ public class UsuarioController {
 		
 	}
 
-	@GetMapping(value = "/movimientos/{id}", produces = {MediaType.APPLICATION_XML_VALUE})
-	    public ResponseEntity<String> list(@PathVariable("id") Integer id) {
-			String list = movimientosUserService.obtenerMovimientoUser(id);
-	        return new ResponseEntity<>(list, HttpStatus.OK);
-	    }
+//	@GetMapping(value = "/movimientos/{id}")
+//	    public void list(@PathVariable("id") Integer id) {
+//			movimientosUserService.obtenerMovimientoUser(id);
+////	        return new ResponseEntity<>(list, HttpStatus.OK);
+//	}
+	
+//	@GetMapping(value = "/movimientos/{id}", produces = {MediaType.APPLICATION_XML_VALUE})
+//    public ResponseEntity<MovimientosList> list(@PathVariable("id") Integer id) {
+//	MovimientosList list = movimientosUserService.obtenerMovimientoUser(id);
+//        return new ResponseEntity<>(list, HttpStatus.OK);
+//    }
+	
+	@GetMapping(value = "/movimientos/{id}")
+  public ResponceModelOfXml list(@PathVariable("id") Integer id) {
+		ResponceModelOfXml list = movimientosUserService.obtenerMovimientoUser(id);
+      return list;
+  }
 
 }
