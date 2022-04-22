@@ -129,10 +129,12 @@ public class UsuarioService {
 	        return respuesta;
 		}catch(ResponseStatusException nfe) {			
 			throw new NotFoundException(nfe.getMessage());
-		}
-        
-
+		}       
         
 	}
+	
+//	public String obtenerSaldoXml(){
+//		return null;
+//		}
 
 }

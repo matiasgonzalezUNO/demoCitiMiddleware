@@ -2,7 +2,10 @@ package ar.com.itrsa.demoCitiMiddleware.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,7 @@ import ar.com.itrsa.demoCitiMiddleware.exception.NotFoundException;
 import ar.com.itrsa.demoCitiMiddleware.exception.RestNotFoundException;
 import ar.com.itrsa.demoCitiMiddleware.models.RequestModel;
 import ar.com.itrsa.demoCitiMiddleware.models.ResponseModel;
+import ar.com.itrsa.demoCitiMiddleware.services.MovimientosUserService;
 import ar.com.itrsa.demoCitiMiddleware.services.UsuarioService;
 
 //Punto de entrada de la api
@@ -30,6 +34,9 @@ public class UsuarioController {
 	
 	@Autowired
 	UsuarioService usuarioService;
+	
+	@Autowired
+	MovimientosUserService movimientosUserService;
 	
 	@GetMapping( path = "/getUsersDummy")
 	public String obtenerUsuariosDummy() {
@@ -66,5 +73,11 @@ public class UsuarioController {
 		}
 		
 	}
+
+	@GetMapping(value = "/movimientos/{id}", produces = {MediaType.APPLICATION_XML_VALUE})
+	    public ResponseEntity<String> list(@PathVariable("id") Integer id) {
+			String list = movimientosUserService.obtenerMovimientoUser(id);
+	        return new ResponseEntity<>(list, HttpStatus.OK);
+	    }
 
 }

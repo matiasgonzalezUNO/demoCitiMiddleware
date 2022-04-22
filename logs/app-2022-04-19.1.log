@@ -1,0 +1,5 @@
+2022-04-19 11:10:38,156 [restartedMain] INFO  ar.com.itrsa.demoCitiMiddleware.DemoCitiMiddlewareApplication (StartupInfoLogger.java:55) - Starting DemoCitiMiddlewareApplication using Java 16.0.1 on ITRP0730 with PID 15080 (C:\_citi\demoCitiMiddleware\target\classes started by matias_gonzalez in C:\_citi\demoCitiMiddleware)
+2022-04-19 11:10:38,179 [restartedMain] DEBUG ar.com.itrsa.demoCitiMiddleware.DemoCitiMiddlewareApplication (StartupInfoLogger.java:56) - Running with Spring Boot v2.6.6, Spring v5.3.18
+2022-04-19 11:10:38,180 [restartedMain] INFO  ar.com.itrsa.demoCitiMiddleware.DemoCitiMiddlewareApplication (SpringApplication.java:640) - No active profile set, falling back to 1 default profile: "default"
+2022-04-19 11:10:39,712 [restartedMain] INFO  ar.com.itrsa.demoCitiMiddleware.DemoCitiMiddlewareApplication (StartupInfoLogger.java:61) - Started DemoCitiMiddlewareApplication in 1.936 seconds (JVM running for 3.274)
+2022-04-19 11:11:49,638 [http-nio-8088-exec-3] INFO  ar.com.itrsa.demoCitiMiddleware.controllers.UsuarioController (UsuarioController.java:46) - Ingresan a transformacion del middleware
