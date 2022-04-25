@@ -2,13 +2,12 @@ package ar.com.itrsa.demoCitiMiddleware.services;
 
 import java.text.DecimalFormat;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
-
 import ar.com.itrsa.demoCitiMiddleware.exception.BadRequestException;
 import ar.com.itrsa.demoCitiMiddleware.exception.NotFoundException;
 import ar.com.itrsa.demoCitiMiddleware.models.RequestModel;
@@ -18,8 +17,7 @@ import ar.com.itrsa.demoCitiMiddleware.models.UsuarioModel;
 
 @Service
 public class UsuarioService {
-	
-	
+
 	//Este autowired al rest template es para poder agregarle las configuraciones del RestTemplate para el errorHandling
 	@Autowired
 	private RestTemplate restTemplate;
@@ -69,7 +67,7 @@ public class UsuarioService {
 		
 		return result;
 	}
-	
+
 	public ResponseModel obtenerSaldo (RequestModel request) throws Exception{
 	
 		ResponseModel respuesta = new ResponseModel();

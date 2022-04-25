@@ -1,24 +1,23 @@
 package ar.com.itrsa.demoCitiMiddleware.controllers;
 
+import ar.com.itrsa.demoCitiMiddleware.services.MovimientosUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import ar.com.itrsa.demoCitiMiddleware.exception.BadRequestException;
 import ar.com.itrsa.demoCitiMiddleware.exception.NotFoundException;
 import ar.com.itrsa.demoCitiMiddleware.exception.RestNotFoundException;
 import ar.com.itrsa.demoCitiMiddleware.models.RequestModel;
 import ar.com.itrsa.demoCitiMiddleware.models.ResponseModel;
 import ar.com.itrsa.demoCitiMiddleware.services.UsuarioService;
+import org.w3c.dom.Document;
+
+import java.io.IOException;
 
 //Punto de entrada de la api
 
@@ -30,6 +29,9 @@ public class UsuarioController {
 	
 	@Autowired
 	UsuarioService usuarioService;
+
+    @Autowired
+    MovimientosUserService movimientosUserService;
 	
 	@GetMapping( path = "/getUsersDummy")
 	public String obtenerUsuariosDummy() {
@@ -40,6 +42,12 @@ public class UsuarioController {
 	public String obtenerUsuarios() {
 		return usuarioService.obtenerUsuarios();
 	}
+
+    @GetMapping(value = "/movimientos/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> list(@PathVariable("id") Integer id) throws IOException {
+        String list = movimientosUserService.obtenerMovimientoUser(id);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 	
 	@PostMapping( path = "/obtenerSaldo")
 	public @ResponseBody ResponseModel ObtenerSaldo(@RequestBody RequestModel request) {
